@@ -201,36 +201,22 @@ def func_deselect_all_bones(ob):
 def func_remove_flat_curves():   
     ob = bpy.context.active_object
 
-    dict = {}
-    for n in ob.pose.bones:
-        if n.bone.select:
-            dict[n.name]=[]
-
-    curves_to_remove = []
-
     for n in ob.animation_data.action.fcurves:
-        for i in dict.keys():
-            if n.data_path.find(i) != -1:
+        points = n.keyframe_points
+        previous = points[0].co[1]
+        remove = True
+        for i in points:
+            value = i.co[1]
+            if value != previous:
+                remove = False
+                break
+            previous = i.co[1]
 
-                points = n.keyframe_points
-                previous = points[0].co[1]
-                remove = True
-                for i in points:
-                    value = i.co[1]
-                    if value != previous:
-                        remove = False
-                        break
-                    previous = i.co[1]
-
-                if remove:
-                    curves_to_remove.append(n)
-                #print(remove)
-
-    for n in curves_to_remove:
-        try:
-            ob.animation_data.action.fcurves.remove(n)
-        except:
-            print("curve %s not found" % n.data_path )
+        if remove:
+            try:
+                ob.animation_data.action.fcurves.remove(n)
+            except:
+                print("curve %s not found" % n.data_path )
 
 class remove_flat_curves(bpy.types.Operator):
     '''Remove all flat fcurves (curves where all keys have same values)'''
@@ -390,8 +376,7 @@ class add_SRT_to_keying_set(bpy.types.Operator):
         return {'FINISHED'}
 
 class jump_first_frame(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "scene.jump_first_frame"
     bl_label = "Jump to first frame"
 
@@ -404,8 +389,7 @@ class jump_first_frame(bpy.types.Operator):
         return {'FINISHED'}
 
 class jump_last_frame(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "scene.jump_last_frame"
     bl_label = "Jump to last frame"
 
@@ -516,8 +500,7 @@ class ivo_calc_motion_paths(bpy.types.Operator):
         return {'FINISHED'}
 
 class ivo_armature_show_all_layers(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "object.ivo_armature_show_all_layers"
     bl_label = "Show all am Layers"
 
@@ -581,8 +564,7 @@ def func_cycle_armature_layer(ob, increment=1):
     ob.data.layers = layer
 
 class next_armature_layer(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "object.next_armature_layer"
     bl_label = "next_armature_layer"
 
@@ -597,8 +579,7 @@ class next_armature_layer(bpy.types.Operator):
         return ('FINISHED')
 
 class prev_armature_layer(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "object.prev_armature_layer"
     bl_label = "prev_armature_layer"
 
@@ -993,8 +974,7 @@ class posebone_toggle_constraints(bpy.types.Operator):
 
 
 class xraytoggle(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "object.xraytoggle"
     bl_label = "Ivo X-Ray toggle"
 
@@ -1048,8 +1028,7 @@ class ivo_reset_all_transforms(bpy.types.Operator):
         return ('FINISHED')
 
 class ivo_armature_show_all_layers(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "object.ivo_armature_show_all_layers"
     bl_label = "Show all am Layers"
 
@@ -1066,8 +1045,7 @@ class ivo_armature_show_all_layers(bpy.types.Operator):
 
 
 class draw_axis_toggle(bpy.types.Operator):
-    '''
-    '''
+    ''''''
     bl_idname = "armature.draw_axis_toggle"
     bl_label = "Show axes"
 
