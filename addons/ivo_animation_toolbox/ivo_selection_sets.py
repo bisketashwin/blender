@@ -257,7 +257,7 @@ class VIEW3D_PT_tools_bone_selection_sets(View3DPanel, bpy.types.Panel):
         #~ row.label(text="Hello world!", icon='WORLD_DATA')
 
         row = layout.row()        
-        row.template_list(obj.bone_selection_sets, "sets", obj.bone_selection_sets, "index", rows=5)
+        row.template_list("Selection Sets","",obj.bone_selection_sets, "sets", obj.bone_selection_sets, "index", rows=5)
         
         col = row.column()
         sub = col.column(align=True)
